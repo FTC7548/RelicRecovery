@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_menu.png",
+        "source": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_menu.png"
+    },
+    {
+        "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_launcher.png",
+        "source": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/icon_robotcontroller.png",
+        "source": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/icon_robotcontroller.png"
+    }
+]
