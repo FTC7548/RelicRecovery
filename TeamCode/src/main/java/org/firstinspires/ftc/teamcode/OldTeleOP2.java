@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.util.Robot;
  * Created by dchotzen-hartzell19 on 10/10/17.
  */
 
-@TeleOp(name="Old Tank Drive")
+@TeleOp(name="New Old Tank Drive")
 public class OldTeleOP2 extends LinearOpMode {
 
     public Robot r;

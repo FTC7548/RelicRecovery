@@ -5,9 +5,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -18,21 +20,24 @@ public abstract class AutonomousOpMode extends LinearOpMode {
 
     public Robot r;
 
-    private final int PPR = 2830;
+    private final int PPR = 560;
     private final double WHL_DIAM = 4;
 
-    private final double HDNG_THRESHOLD = 7;
+    private final double HDNG_THRESHOLD = 5;
 
     private final double PPI = PPR / (WHL_DIAM * Math.PI);
 
     private ElapsedTime runtime = new ElapsedTime();
 
+    private VuforiaTrackables relicTrackables;
+    private VuforiaTrackable relicTemplate;
+
 
     // Vuforia Stuff
-
-    VuforiaTrackables relicTrackables;
-    VuforiaTrackable relicTemplate;
+    OpenGLMatrix lastLocation = null;
     VuforiaLocalizer vuforia;
+
+    Orientation angles;
 
     @Override
     public void runOpMode() {
@@ -53,34 +58,16 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         resetEnc();
 
         waitForStart();
-        /*relicTrackables.activate();
+
         sleep(1000);
-
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        int count = 0;
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN && count < 15) {
-            vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            count++;
-            telemetry.addData("COUNT", count);
-            telemetry.addData("VUMARK", vuMark);
-            telemetry.update();
-        }*/
-
-        // grab cube and lift up before going off platform
-        r.LEFT_GRABBER.setPosition(r.LG_MAX);
-        r.RIGHT_GRABBER.setPosition(r.RG_MAX);
-        r.LIFT_1.setPower(0.5);
-        r.LIFT_2.setPower(0.5);
-        sleep(400);
-        r.LIFT_1.setPower(0);
-        r.LIFT_2.setPower(0);
 
         run();
     }
 
+    public abstract void run();
+
     public RelicRecoveryVuMark getVision() {
         relicTrackables.activate();
-        sleep(500);
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         int count = 0;
         while (vuMark == RelicRecoveryVuMark.UNKNOWN && count < 15) {
@@ -93,15 +80,14 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         return vuMark;
     }
 
-    public abstract void run();
-
     public void drive(double l_inches, double r_inches, double pwr, double timeout) {
         if (opModeIsActive()) {
 
             resetEnc();
 
-            int l_target = (int) (l_inches / (Math.PI * WHL_DIAM)) * PPR;
-            int r_target = (int) (r_inches / (Math.PI * WHL_DIAM)) * PPR;
+            int start, end;
+            int l_target = (int) (l_inches * PPI);
+            int r_target = (int) (r_inches * PPI);
 
             setTarget(l_target, r_target);
 
@@ -117,6 +103,8 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             while (opModeIsActive() &&
                     runtime.seconds() < timeout &&
                     busy()) {
+                //dx = end - start;
+                start = r.LEFT_FRONT.getCurrentPosition();
 
                 et.reset();
 
@@ -140,7 +128,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
 
             sleep(250);
         }
-        telemetry.clearAll();
     }
 
     public void resetEnc() {
@@ -189,41 +176,37 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         r.RIGHT_FRONT.setPower(pwr);
     }
 
-    public void senseBlueTurn() {
+    public void senseBlue() {
         r.LEFT_EXT.setPosition(1);
         r.RIGHT_EXT.setPosition(1);
         sleep(1000);
         if (r.COLOR_SENSOR_RED.blue() > r.COLOR_SENSOR_RED.red()) {
-            drive(-2, 2, 0.3, 2);
+            drive(-4, -4, 0.3, 2);
             sleep(1000);
             r.LEFT_EXT.setPosition(0);
-            drive(2, -2, 0.3, 2);
         } else {
-            drive(2, -2, 0.3, 2);
+            drive(4, 4, 0.3, 2);
             sleep(1000);
             r.LEFT_EXT.setPosition(0);
-            drive(-2, 2, 0.3, 2);
+            drive(-8, -8, 0.3, 2);
         }
-        telemetry.clearAll();
     }
-
 
     public void senseRedTurn() {
         r.LEFT_EXT.setPosition(1);
         r.RIGHT_EXT.setPosition(1);
         sleep(1000);
-        if (r.COLOR_SENSOR_RED.blue() < r.COLOR_SENSOR_RED.red()) {
-            drive(-8, 8, 0.4, 2);
+        if (r.COLOR_SENSOR_RED.red() > r.COLOR_SENSOR_RED.blue()) {
+            drive(-2, 2, 0.7, 2);
             sleep(1000);
             r.LEFT_EXT.setPosition(0);
-            drive(8, -8, 0.4, 2);
+            drive(-2, 2, 0.7, 2);
         } else {
-            drive(8, -8, 0.4, 2);
+            drive(2, -2, 0.7, 2);
             sleep(1000);
             r.LEFT_EXT.setPosition(0);
-            drive(-8, 8, 0.4, 2);
+            drive(-2, 2, 0.7, 2);
         }
-        telemetry.clearAll();
     }
 
     public void driveUntilFlat(double threshold, double pwr) {
@@ -239,8 +222,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         }
         setPwr(0);
         resetEnc();
-        telemetry.clearAll();
-
     }
 
     public void turnUntilHeading(double heading, double pwr) {
@@ -252,12 +233,10 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             telemetry.addData("Turning", distance(yaw, heading) > 0? "Right":"Left");
             telemetry.addData("Power", pwr);
             telemetry.addData("", "Heading Target: %s | Actual: %s", heading, yaw);
-            telemetry.update();
             yaw = yaw();
         }
         resetEnc();
         setPwr(0);
-        telemetry.clearAll();
     }
 
     public boolean busy() {
@@ -275,10 +254,4 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     public double distance(double angle1, double angle2) {
         return ((angle2 - angle1 + 180) % 360) - 180;
     }
-
-    public void releaseGrabber() {
-        r.LEFT_GRABBER.setPosition(r.LG_MAX);
-        r.RIGHT_GRABBER.setPosition(r.RG_MAX);
-    }
-
 }

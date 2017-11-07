@@ -11,7 +11,7 @@ public class BlueMiddle extends AutonomousOpMode {
 
     @Override
     public void run() {
-        senseBlueTurn();
+        //senseBlueTurn();
     }
 
 }
