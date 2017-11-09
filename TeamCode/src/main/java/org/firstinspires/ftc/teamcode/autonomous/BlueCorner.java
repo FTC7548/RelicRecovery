@@ -12,7 +12,7 @@ public class BlueCorner extends AutonomousOpMode {
     @Override
     public void run() {
         //senseBlueTurn();
-        drive(-24, -24, 0.3, 2);
-        turnUntilHeading(270, 0.2);
+        drive(-24, -24, 0.7, 2);
+        //turnUntilHeading(270, 0.2);
     }
 }

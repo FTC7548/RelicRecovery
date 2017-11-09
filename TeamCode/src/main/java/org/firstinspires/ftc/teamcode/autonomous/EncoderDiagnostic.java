@@ -20,17 +20,24 @@ public class EncoderDiagnostic extends LinearOpMode {
     @Override
     public void runOpMode() {
         r = new Robot(this);
+
+        r.LEFT_BACK.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        r.RIGHT_FRONT.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
 
         runtime.reset();
         setPwr(0.75);
-        while (runtime.seconds() < 5 && opModeIsActive()) {
-            telemetry.addData("Enc", "%07d | %07d | %07d | %07d", r.LEFT_FRONT.getCurrentPosition(), r.LEFT_BACK.getCurrentPosition(), r.RIGHT_FRONT.getCurrentPosition(), r.RIGHT_BACK.getCurrentPosition());
+        while (r.LEFT_FRONT.getCurrentPosition() < 5000 && r.RIGHT_BACK.getCurrentPosition() < 5000 && opModeIsActive()) {
+            //telemetry.addData("Enc", "%05d | %05d | %05d | %05d", r.LEFT_FRONT.getCurrentPosition(), r.LEFT_BACK.getCurrentPosition(),
+            // r.RIGHT_FRONT.getCurrentPosition(), r.RIGHT_BACK.getCurrentPosition());
+            telemetry.addData("Enc", "%05d | %05d", r.LEFT_FRONT.getCurrentPosition(), r.RIGHT_BACK.getCurrentPosition());
             telemetry.update();
         }
+        setPwr(0);
 
         sleep(2000);
 
@@ -38,8 +45,8 @@ public class EncoderDiagnostic extends LinearOpMode {
 
     public void setMode(DcMotor.RunMode mode) {
         r.LEFT_FRONT.setMode(mode);
-        r.LEFT_BACK.setMode(mode);
-        r.RIGHT_FRONT.setMode(mode);
+        //r.LEFT_BACK.setMode(mode);
+        //r.RIGHT_FRONT.setMode(mode);
         r.RIGHT_BACK.setMode(mode);
     }
 

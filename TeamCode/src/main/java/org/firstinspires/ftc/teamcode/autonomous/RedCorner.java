@@ -14,15 +14,14 @@ public class RedCorner extends AutonomousOpMode {
     @Override
     public void run() {
         senseRedTurn();
-        drive(-27, -27, 0.5, 2);
+        driveNew(30, 0.7, 5);
         switch (getVision()) {
             case CENTER:
-                drive(6, 6, 0.4, 2);
+                driveNew(6, 0.3, 2);
             case RIGHT:
-                drive(12, 12, 0.4, 2);
-
+                driveNew(12, 0.3, 2);
         }
-        turnUntilHeading(90, 0.3);
+        turnUntilHeading(270, 0.4, 1);
         drive(8, 8, 0.6, 2);
         //releaseGrabber();
         drive(-2, -2, 0.6, 2);

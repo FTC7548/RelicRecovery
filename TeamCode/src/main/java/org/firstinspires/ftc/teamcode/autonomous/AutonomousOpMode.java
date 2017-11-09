@@ -20,10 +20,10 @@ public abstract class AutonomousOpMode extends LinearOpMode {
 
     public Robot r;
 
-    private final int PPR = 560;
+    private final int PPR = 1890;
     private final double WHL_DIAM = 4;
 
-    private final double HDNG_THRESHOLD = 5;
+    private final double HDNG_THRESHOLD = 15;
 
     private final double PPI = PPR / (WHL_DIAM * Math.PI);
 
@@ -59,7 +59,18 @@ public abstract class AutonomousOpMode extends LinearOpMode {
 
         waitForStart();
 
+
+
+        r.LEFT_GRABBER.setPosition(r.LG_MAX);
+        r.RIGHT_GRABBER.setPosition(r.RG_MAX);
         sleep(1000);
+        r.LIFT_1.setPower(0.3);
+        r.LIFT_2.setPower(0.3);
+        sleep(1000);
+        r.LIFT_1.setPower(0);
+        r.LIFT_2.setPower(0);
+
+        sleep(500);
 
         run();
     }
@@ -130,6 +141,30 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         }
     }
 
+    public void driveNew(double inches, double pwr, double timeout) {
+        setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        int newLeftTicks = r.LEFT_FRONT.getCurrentPosition() + (int)(inches * PPI);
+        int newRightTicks = r.LEFT_BACK.getCurrentPosition() + (int)(inches * PPI);
+        runtime.reset();
+        if (inches > 0) {
+            setPwr(pwr);
+            while (r.LEFT_FRONT.getCurrentPosition() < newLeftTicks && r.RIGHT_BACK.getCurrentPosition() < newRightTicks && runtime.seconds() < timeout) {
+                telemetry.addData("Pos", "%05d | %05d", r.LEFT_FRONT.getCurrentPosition(), r.RIGHT_BACK.getCurrentPosition());
+                telemetry.addData("Tgt", "%05d | %05d", newLeftTicks, newRightTicks);
+                telemetry.update();
+            }
+        } else {
+            setPwr(-pwr);
+            while (r.LEFT_FRONT.getCurrentPosition() > newLeftTicks && r.RIGHT_BACK.getCurrentPosition() > newRightTicks && runtime.seconds() < timeout) {
+                telemetry.addData("Pos", "%05d | %05d", r.LEFT_FRONT.getCurrentPosition(), r.RIGHT_BACK.getCurrentPosition());
+                telemetry.addData("Tgt", "%05d | %05d", newLeftTicks, newRightTicks);
+                telemetry.update();
+            }
+        }
+
+        setPwr(0);
+    }
+
     public void resetEnc() {
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         idle();
@@ -197,15 +232,15 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         r.RIGHT_EXT.setPosition(1);
         sleep(1000);
         if (r.COLOR_SENSOR_RED.red() > r.COLOR_SENSOR_RED.blue()) {
-            drive(-2, 2, 0.7, 2);
-            sleep(1000);
+            turnUntilHeading(340, 0.3, -1);
+            sleep(500);
             r.LEFT_EXT.setPosition(0);
-            drive(-2, 2, 0.7, 2);
+            turnUntilHeading(1, 0.3, 1);
         } else {
-            drive(2, -2, 0.7, 2);
-            sleep(1000);
+            turnUntilHeading(20, 0.3, 1);
+            sleep(500);
             r.LEFT_EXT.setPosition(0);
-            drive(-2, 2, 0.7, 2);
+            turnUntilHeading(1, 0.3, -1);
         }
     }
 
@@ -224,12 +259,12 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         resetEnc();
     }
 
-    public void turnUntilHeading(double heading, double pwr) {
+    public void turnUntilHeading(double heading, double pwr, double dir) {
         double yaw = yaw();
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (Math.abs(distance(yaw, heading)) > HDNG_THRESHOLD && opModeIsActive()) {
-            setLPwr(distance(yaw, heading) > 0? -pwr:pwr);
-            setRPwr(distance(yaw, heading) < 0? -pwr:pwr);
+            setLPwr(distance(yaw, heading) > 0? -pwr * dir:pwr * dir);
+            setRPwr(distance(yaw, heading) < 0? -pwr * dir:pwr * dir);
             telemetry.addData("Turning", distance(yaw, heading) > 0? "Right":"Left");
             telemetry.addData("Power", pwr);
             telemetry.addData("", "Heading Target: %s | Actual: %s", heading, yaw);

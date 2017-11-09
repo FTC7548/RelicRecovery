@@ -105,8 +105,8 @@ public class TeleOP extends LinearOpMode {
         r.LEFT_FRONT.setPower(l_pwr);
         r.RIGHT_FRONT.setPower(r_pwr);
         telemetry.addData("PWR", "L %.2f | R %.2f", l_pwr, r_pwr);
-        telemetry.addData("LIFT", "1: %s | 2: %s", r.LIFT_1.getCurrentPosition(), r.LIFT_2.getCurrentPosition());
-        telemetry.addData("GRAB", "L: %s | R: %s", r.LEFT_GRABBER.getPosition(), r.RIGHT_GRABBER.getPosition());
+        telemetry.addData("LIFT", "1: %d | 2: %d", r.LIFT_1.getCurrentPosition(), r.LIFT_2.getCurrentPosition());
+        telemetry.addData("GRAB", "L: %.1f | R: %.1f", r.LEFT_GRABBER.getPosition(), r.RIGHT_GRABBER.getPosition());
 
     }
 
