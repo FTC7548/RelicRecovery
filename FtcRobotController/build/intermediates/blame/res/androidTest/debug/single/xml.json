@@ -1,5 +1,13 @@
 [
     {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/maxmodules.xml",
+        "source": "/Users/ayoung19/.android/build-cache/96d392711abdc8a06e271ec7233bf01bc97ed1aa/output/res/xml/maxmodules.xml"
+    },
+    {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/device_filter.xml",
+        "source": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/bundles/debug/res/xml/device_filter.xml"
+    },
+    {
         "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/maxmodules.xml",
         "source": "/Users/dchotzen-hartzell19/.android/build-cache/80b005f185a89da664dedab752f0ef28511d2aa5/output/res/xml/maxmodules.xml"
     },
@@ -12,12 +20,20 @@
         "source": "/Users/dchotzen-hartzell19/.android/build-cache/80b005f185a89da664dedab752f0ef28511d2aa5/output/res/xml/squarebot.xml"
     },
     {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/rev_scoot.xml",
+        "source": "/Users/ayoung19/.android/build-cache/96d392711abdc8a06e271ec7233bf01bc97ed1aa/output/res/xml/rev_scoot.xml"
+    },
+    {
         "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/pushbotsens.xml",
         "source": "/Users/dchotzen-hartzell19/.android/build-cache/80b005f185a89da664dedab752f0ef28511d2aa5/output/res/xml/pushbotsens.xml"
     },
     {
         "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/rev_scoot.xml",
         "source": "/Users/dchotzen-hartzell19/.android/build-cache/80b005f185a89da664dedab752f0ef28511d2aa5/output/res/xml/rev_scoot.xml"
+    },
+    {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/k9legacybot.xml",
+        "source": "/Users/ayoung19/.android/build-cache/96d392711abdc8a06e271ec7233bf01bc97ed1aa/output/res/xml/k9legacybot.xml"
     },
     {
         "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/k9usbbot.xml",
@@ -32,11 +48,35 @@
         "source": "/Users/dchotzen-hartzell19/.android/build-cache/80b005f185a89da664dedab752f0ef28511d2aa5/output/res/xml/k9legacybot.xml"
     },
     {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/pushbotsens.xml",
+        "source": "/Users/ayoung19/.android/build-cache/96d392711abdc8a06e271ec7233bf01bc97ed1aa/output/res/xml/pushbotsens.xml"
+    },
+    {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/advanced_rc_settings.xml",
+        "source": "/Users/ayoung19/.android/build-cache/96d392711abdc8a06e271ec7233bf01bc97ed1aa/output/res/xml/advanced_rc_settings.xml"
+    },
+    {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/k9usbbot.xml",
+        "source": "/Users/ayoung19/.android/build-cache/96d392711abdc8a06e271ec7233bf01bc97ed1aa/output/res/xml/k9usbbot.xml"
+    },
+    {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/app_settings.xml",
+        "source": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/bundles/debug/res/xml/app_settings.xml"
+    },
+    {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/pushbot.xml",
+        "source": "/Users/ayoung19/.android/build-cache/96d392711abdc8a06e271ec7233bf01bc97ed1aa/output/res/xml/pushbot.xml"
+    },
+    {
         "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/pushbot.xml",
         "source": "/Users/dchotzen-hartzell19/.android/build-cache/80b005f185a89da664dedab752f0ef28511d2aa5/output/res/xml/pushbot.xml"
     },
     {
         "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/advanced_rc_settings.xml",
         "source": "/Users/dchotzen-hartzell19/.android/build-cache/80b005f185a89da664dedab752f0ef28511d2aa5/output/res/xml/advanced_rc_settings.xml"
+    },
+    {
+        "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/androidTest/debug/xml/squarebot.xml",
+        "source": "/Users/ayoung19/.android/build-cache/96d392711abdc8a06e271ec7233bf01bc97ed1aa/output/res/xml/squarebot.xml"
     }
 ]
