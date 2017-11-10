@@ -48,7 +48,7 @@ public class Robot {
     public double   LG_MIN = 0,
                     LG_MAX = 0.3,
                     RG_MIN = 0.4,
-                    RG_MAX = 0.1;
+                    RG_MAX = 0.0;
 
     public BNO055IMU IMU;
 
