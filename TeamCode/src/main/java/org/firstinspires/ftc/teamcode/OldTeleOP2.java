@@ -123,11 +123,11 @@ public class OldTeleOP2 extends LinearOpMode {
         if (grabber_toggled) {
             r.LEFT_GRABBER.setPosition(r.LG_MIN);
             r.RIGHT_GRABBER.setPosition(r.RG_MIN);
-            r.GRIP.setPosition(0.7);
+            r.GRIP.setPosition(0.3);
         } else {
             r.LEFT_GRABBER.setPosition(r.LG_MAX);
             r.RIGHT_GRABBER.setPosition(r.RG_MAX);
-            r.GRIP.setPosition(0.3);
+            r.GRIP.setPosition(0.7);
         }
         grabber_toggled = !grabber_toggled;
     }
