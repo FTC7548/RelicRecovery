@@ -19,23 +19,17 @@ public class BlueCorner extends AutonomousOpMode {
         driveNew(-8, 0.3, 3);
         driveUntilFlat(3, -0.3);
         driveNew(-10, 0.3, 3);
-        /*switch (v) {
-            case CENTER:
-                driveNew(-6, 0.3, 2);
+        sleep(1000);
+        switch(v) {
+            case LEFT:
+                turnUntilHeading(105, 0.3, 1, 3);
             case RIGHT:
-                driveNew(-12, 0.3, 2);
-        }*/
-        sleep(1000);
-        turnUntilHeading(80, 0.3, 1, 3);
-        sleep(1000);
-        driveNew(-5, 0.3, 3);
-        sleep(250);
-        releaseGrip();
-        sleep(250);
-        driveNew(5, 0.3, 3);
-        sleep(250);
-        driveNew(-10, 0.3, 2);
-        sleep(250);
-        driveNew(3, 0.3, 2);
+                turnUntilHeading(75, 0.3, 1, 3);
+            case CENTER:
+                turnUntilHeading(90, 0.3, 1, 3);
+            case UNKNOWN:
+                turnUntilHeading(90, 0.3, 1, 3);
+        }
+        depositBlock();
     }
 }

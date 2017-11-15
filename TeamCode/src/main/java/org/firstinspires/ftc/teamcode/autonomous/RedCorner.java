@@ -18,25 +18,24 @@ public class RedCorner extends AutonomousOpMode {
         sleep(1000);
         driveNew(8, 0.3, 3);
         driveUntilFlat(3, 0.3);
-        driveNew(10, 0.3, 3);
-        /*switch (v) {
-            case CENTER:
-                driveNew(6, 0.2, 2);
-            case RIGHT:
-                driveNew(12, 0.2, 2);
-        }*/
-        sleep(1000);
-        turnUntilHeading(90, 0.2, 1, 3);
-        sleep(1000);
-        driveNew(-5, 0.3, 3);
-        sleep(250);
-        releaseGrip();
-        sleep(250);
-        driveNew(5, 0.3, 3);
-        sleep(250);
-        driveNew(-10, 0.3, 2);
-        sleep(250);
-        driveNew(3, 0.3, 2);
+        sleep(500);
+        if (v == RelicRecoveryVuMark.RIGHT) { // SHOULD BE LEFT ACTUALLY
+            driveNew(4, 0.3, 3);
+            sleep(1000);
+            dragLeftTurnHeading(115, 0.4, 1, 3);
+        } else if (v == RelicRecoveryVuMark.CENTER || v == RelicRecoveryVuMark.UNKNOWN) {
+            driveNew(10, 0.3, 3);
+            sleep(1000);
+            dragLeftTurnHeading(70, 0.4, 1, 3);
+        } else if (v == RelicRecoveryVuMark.LEFT)  { // SHOULD BE RIGHT ACTUALLY
+            driveNew(5, 0.3, 3);
+            sleep(1000);
+            dragLeftTurnHeading(65, 0.4, 1, 3);
+        }
+
+
+
+        depositBlock();
 
     }
 }
