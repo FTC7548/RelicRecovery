@@ -23,7 +23,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     private final int PPR = 1890;
     private final double WHL_DIAM = 4;
 
-    private final double HDNG_THRESHOLD = 5;
+    private final double HDNG_THRESHOLD = 10;
 
     private final double PPI = PPR / (WHL_DIAM * Math.PI);
 
@@ -81,7 +81,8 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         relicTrackables.activate();
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         int count = 0;
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN && count < 15) {
+        runtime.reset();
+        while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < 5) {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             count++;
             telemetry.addData("COUNT", count);
@@ -97,6 +98,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             resetEnc();
 
             int start, end;
+
             int l_target = (int) (l_inches * PPI);
             int r_target = (int) (r_inches * PPI);
 
@@ -320,6 +322,24 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         setPwr(0);
     }
 
+    public void dragLeftTurnHeading(double heading, double pwr, double dir, double timeout) {
+        double yaw = yaw();
+        setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        runtime.reset();
+        while (Math.abs(distance(yaw, heading)) > HDNG_THRESHOLD && opModeIsActive() && runtime.seconds() < timeout) {
+            setLPwr(distance(yaw, heading) < 0? -pwr * dir:pwr * dir);
+            //setRPwr(distance(yaw, heading) > 0? -pwr * dir:pwr * dir);
+            telemetry.addData("Turning", distance(yaw, heading) > 0? "Right":"Left");
+            telemetry.addData("Power", pwr);
+            telemetry.addData("", "Heading Target: %s | Actual: %s", heading, yaw);
+            telemetry.addData("", "Distance: %s", distance(yaw,heading));
+            telemetry.update();
+            yaw = yaw();
+        }
+        resetEnc();
+        setPwr(0);
+    }
+
     public boolean busy() {
         return r.RIGHT_BACK.isBusy() && r.LEFT_BACK.isBusy() && r.LEFT_FRONT.isBusy() && r.RIGHT_FRONT.isBusy();
     }
@@ -335,4 +355,18 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     public double distance(double angle1, double angle2) {
         return ((angle2 - angle1 + 180) % 360) - 180;
     }
+
+    public void depositBlock() {
+        sleep(500);
+        driveNew(-20, 0.3, 3);
+        sleep(250);
+        releaseGrip();
+        sleep(250);
+        driveNew(5, 0.3, 3);
+        sleep(250);
+        driveNew(-10, 0.3, 2);
+        sleep(250);
+        driveNew(3, 0.3, 2);
+    }
+
 }
