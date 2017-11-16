@@ -163,7 +163,7 @@ public class TeleOpSplit extends LinearOpMode {
 
     public void rail() {
         if (gamepad2.dpad_up) {
-            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - RELIC_INC, 0, 1));
+            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() + RELIC_INC, 0, 1));
         } else if (gamepad2.dpad_down){
             r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - RELIC_INC, 0, 1));
         }

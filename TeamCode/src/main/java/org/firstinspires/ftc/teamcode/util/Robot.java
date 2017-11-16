@@ -96,9 +96,13 @@ public class Robot {
         INTAKE_LS = hardwareMap.servo.get("intake_ls");
         INTAKE_RS = hardwareMap.servo.get("intake_rs");
 
+
         RAIL = hardwareMap.servo.get("rail");
-        RELICCC_TOP = hardwareMap.servo.get("relic_top");
-        RELICCC_BOTTOM = hardwareMap.servo.get("relic_bottom");
+        RAIL.setPosition(.5);
+        RELICCC_TOP = hardwareMap.servo.get("relic");
+        RELICCC_TOP.setPosition(.5);
+        RELICCC_BOTTOM = hardwareMap.servo.get("grip");
+        RELICCC_TOP.setPosition(.5);
 
         LIFT_TOUCH_SENSOR = hardwareMap.digitalChannel.get("lift_touch_sensor");
 

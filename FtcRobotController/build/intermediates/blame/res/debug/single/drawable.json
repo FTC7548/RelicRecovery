@@ -1,7 +1,27 @@
 [
     {
+        "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/debug/drawable/feedback_shape_orange.xml",
+        "source": "/Users/dchotzen-hartzell19/.android/build-cache/07a34b69d050ad986c8ec3e59072e8674cd0134b/output/res/drawable/feedback_shape_orange.xml"
+    },
+    {
+        "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/debug/drawable/button_shape.xml",
+        "source": "/Users/dchotzen-hartzell19/.android/build-cache/80b005f185a89da664dedab752f0ef28511d2aa5/output/res/drawable/button_shape.xml"
+    },
+    {
+        "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/debug/drawable/black_border.xml",
+        "source": "/Users/dchotzen-hartzell19/.android/build-cache/e598a46900d4cca712fba3f1ab582386a225129c/output/res/drawable/black_border.xml"
+    },
+    {
+        "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/debug/drawable/icon_robotcontroller.png",
+        "source": "/Users/dchotzen-hartzell19/.android/build-cache/96315e5348c55eebe294a5d6570da3a67eb9d3e7/output/res/drawable/icon_robotcontroller.png"
+    },
+    {
         "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/debug/drawable/black_border.xml",
         "source": "/Users/ayoung19/.android/build-cache/9d346daaefb00f38f5068e4d3ff04ba6e945304d/output/res/drawable/black_border.xml"
+    },
+    {
+        "merged": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/res/merged/debug/drawable/icon_menu.png",
+        "source": "/Users/dchotzen-hartzell19/.android/build-cache/96315e5348c55eebe294a5d6570da3a67eb9d3e7/output/res/drawable/icon_menu.png"
     },
     {
         "merged": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/res/merged/debug/drawable/icon_robotcontroller.png",
