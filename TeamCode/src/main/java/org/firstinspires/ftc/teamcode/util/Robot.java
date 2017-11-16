@@ -37,7 +37,10 @@ public class Robot {
                     INTAKE_LS,
                     INTAKE_RS,
                     BACK,
-                    GRIP;
+                    GRIP,
+                    RAIL,
+                    RELICCC_TOP,
+                    RELICCC_BOTTOM;
     ;
 
     public Intake INTAKE;
@@ -93,6 +96,10 @@ public class Robot {
         RIGHT_EXT = hardwareMap.servo.get("right_ext");
         INTAKE_LS = hardwareMap.servo.get("intake_ls");
         INTAKE_RS = hardwareMap.servo.get("intake_rs");
+
+        RAIL = hardwareMap.servo.get("rail");
+        RELICCC_TOP = hardwareMap.servo.get("relic_top");
+        RELICCC_BOTTOM = hardwareMap.servo.get("relic_bottom");
 
         LIFT_TOUCH_SENSOR = hardwareMap.digitalChannel.get("lift_touch_sensor");
 
