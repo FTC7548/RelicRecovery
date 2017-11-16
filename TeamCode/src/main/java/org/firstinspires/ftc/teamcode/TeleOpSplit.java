@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.util.Robot;
 
@@ -38,7 +39,8 @@ public class TeleOpSplit extends LinearOpMode {
             grabber();
             intake();
             back();
-
+            rail();
+            reliccc();
 
             if (gamepad2.right_bumper) {
                 r.INTAKE.setSpeed(1);
@@ -155,6 +157,20 @@ public class TeleOpSplit extends LinearOpMode {
             r.BACK.setPosition(0);
         }
         back_toggled = !back_toggled;
+    }
+
+    private final double RELIC_INC = 0.02;
+
+    public void rail() {
+        if (gamepad2.dpad_up) {
+            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - RELIC_INC, 0, 1));
+        } else if (gamepad2.dpad_down){
+            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - RELIC_INC, 0, 1));
+        }
+    }
+
+    public void reliccc() {
+
     }
 
 }
