@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-w820dp-v13/values-w820dp-v13.xml",
+        "outputFile": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values-w820dp-v13/values-w820dp-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 108
                 },
                 "from": {
-                    "file": "/Users/dchotzen-hartzell19/Desktop/Robotics/ftc_app/FtcRobotController/build/intermediates/bundles/debug/res/values-w820dp-v13/values-w820dp-v13.xml",
+                    "file": "/Users/ayoung19/Desktop/ftc2/RelicRecovery/FtcRobotController/build/intermediates/bundles/debug/res/values-w820dp-v13/values-w820dp-v13.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
