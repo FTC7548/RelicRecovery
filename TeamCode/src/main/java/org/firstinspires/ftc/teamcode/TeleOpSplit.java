@@ -25,6 +25,9 @@ public class TeleOpSplit extends LinearOpMode {
     public boolean y_pressed = false;
     public boolean back_toggled = false;
 
+    public boolean a2_pressed = false;
+    public boolean relic_toggled = false;
+
     public void runOpMode() {
 
         r = new Robot(this);
@@ -40,7 +43,7 @@ public class TeleOpSplit extends LinearOpMode {
             intake();
             back();
             rail();
-            reliccc();
+            relic();
 
             if (gamepad2.right_bumper) {
                 r.INTAKE.setSpeed(1);
@@ -50,19 +53,8 @@ public class TeleOpSplit extends LinearOpMode {
                 r.INTAKE.setSpeed(0);
             }
 
-
-
-
-           /* if (gamepad1.dpad_up) {
-                r.INTAKE.setSpeed(1);
-            } else if (gamepad1.dpad_down){
-                r.INTAKE.setSpeed(-1);
-            } else {
-                r.INTAKE.setSpeed(0);
-            }
-
             telemetry.update();
-            idle();*/
+
         }
 
     }
@@ -159,18 +151,41 @@ public class TeleOpSplit extends LinearOpMode {
         back_toggled = !back_toggled;
     }
 
-    private final double RELIC_INC = 0.02;
+    private final double RELIC_INC = 0.001;
 
     public void rail() {
         if (gamepad2.dpad_up) {
-            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() + RELIC_INC, 0, 1));
+            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - RELIC_INC, 0.01, 0.99));
+            telemetry.addData("Rail Pos", r.RAIL.getPosition());
         } else if (gamepad2.dpad_down){
-            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - RELIC_INC, 0, 1));
+            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() + RELIC_INC, 0.01, 0.99));
+        }
+        telemetry.addData("Rail Pos", r.RAIL.getPosition());
+    }
+
+    public void relic() {
+        if (gamepad2.left_trigger > 0.5) {
+            r.RELICCC_BOTTOM.setPosition(.7);
+        } else {
+            r.RELICCC_BOTTOM.setPosition(.2);
+        }
+        if (gamepad2.a) {
+            if (!a2_pressed) {
+                a2_pressed = true;
+                toggleRelic();
+            }
+        } else {
+            a2_pressed = false;
         }
     }
 
-    public void reliccc() {
-
+    public void toggleRelic() {
+        if (relic_toggled) {
+            r.RELICCC_TOP.setPosition(1);
+        } else {
+            r.RELICCC_TOP.setPosition(0);
+        }
+        relic_toggled = !relic_toggled;
     }
 
 }
