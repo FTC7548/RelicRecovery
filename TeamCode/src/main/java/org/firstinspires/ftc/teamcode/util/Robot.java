@@ -33,7 +33,7 @@ public class Robot {
     public Servo    LEFT_GRABBER,
                     RIGHT_GRABBER,
                     LEFT_EXT,
-                    RIGHT_EXT,
+
                     INTAKE_LS,
                     INTAKE_RS,
                     BACK,
@@ -90,7 +90,6 @@ public class Robot {
         LEFT_GRABBER = hardwareMap.servo.get("left_grabber");
         RIGHT_GRABBER = hardwareMap.servo.get("right_grabber");
         LEFT_EXT = hardwareMap.servo.get("left_ext");
-        RIGHT_EXT = hardwareMap.servo.get("right_ext");
         INTAKE_LS = hardwareMap.servo.get("intake_ls");
         INTAKE_RS = hardwareMap.servo.get("intake_rs");
 

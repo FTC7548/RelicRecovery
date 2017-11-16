@@ -19,7 +19,7 @@ public class RedCorner extends AutonomousOpMode {
         driveNew(8, 0.3, 3);
         driveUntilFlat(3, 0.3);
         sleep(500);
-        if (v == RelicRecoveryVuMark.RIGHT) { // SHOULD BE LEFT ACTUALLY
+        if (v == RelicRecoveryVuMark.RIGHT) { // SHOULD BE LEF/T ACTUALLY
             driveNew(4, 0.3, 3);
             sleep(1000);
             dragLeftTurnHeading(115, 0.4, 1, 3);

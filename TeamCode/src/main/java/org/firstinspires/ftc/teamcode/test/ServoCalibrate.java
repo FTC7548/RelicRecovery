@@ -21,10 +21,8 @@ public class ServoCalibrate extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()) {
             if (gamepad1.a) {
-                r.RIGHT_EXT.setPosition(1);
                 r.LEFT_EXT.setPosition(0);
             } else {
-                r.RIGHT_EXT.setPosition(0);
                 r.LEFT_EXT.setPosition(1);
             }
             idle();
