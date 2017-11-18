@@ -90,19 +90,11 @@ public class Robot {
         INTAKE_R = hardwareMap.dcMotor.get("intake_r");
         INTAKE_L = hardwareMap.dcMotor.get("intake_l");
 
-        LEFT_GRABBER = hardwareMap.servo.get("left_grabber");
-        RIGHT_GRABBER = hardwareMap.servo.get("right_grabber");
-        LEFT_EXT = hardwareMap.servo.get("left_ext");
-        INTAKE_LS = hardwareMap.servo.get("intake_ls");
-        INTAKE_RS = hardwareMap.servo.get("intake_rs");
-
-
         RAIL = hardwareMap.servo.get("rail");
         RAIL.setPosition(.5);
-        RELICCC_TOP = hardwareMap.servo.get("relic");
-        RELICCC_TOP.setPosition(.5);
-        RELICCC_BOTTOM = hardwareMap.servo.get("grip");
-        RELICCC_TOP.setPosition(.5);
+
+
+
 
         LIFT_TOUCH_SENSOR = hardwareMap.digitalChannel.get("lift_touch_sensor");
 
@@ -110,6 +102,14 @@ public class Robot {
 
         BACK = hardwareMap.servo.get("back");
         GRIP = hardwareMap.servo.get("GriprSrvo");
+
+        LEFT_GRABBER = hardwareMap.servo.get("left_grabber");
+        RIGHT_GRABBER = hardwareMap.servo.get("right_grabber");
+        LEFT_EXT = hardwareMap.servo.get("left_ext");
+        INTAKE_LS = hardwareMap.servo.get("intake_ls");
+        INTAKE_RS = hardwareMap.servo.get("intake_rs");
+        RELICCC_BOTTOM = hardwareMap.servo.get("grip");
+        RELICCC_TOP = hardwareMap.servo.get("relic");
 
         INTAKE = new Intake(this);
 

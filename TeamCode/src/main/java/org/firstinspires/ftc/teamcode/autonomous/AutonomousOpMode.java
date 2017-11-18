@@ -59,20 +59,21 @@ public abstract class AutonomousOpMode extends LinearOpMode {
 
         waitForStart();
 
+        if (opModeIsActive()) {
 
+            r.LEFT_GRABBER.setPosition(r.LG_MAX);
+            r.RIGHT_GRABBER.setPosition(r.RG_MAX);
+            sleep(1000);
+            r.LIFT_1.setPower(0.3);
+            r.LIFT_2.setPower(0.3);
+            sleep(750);
+            r.LIFT_1.setPower(0);
+            r.LIFT_2.setPower(0);
 
-        r.LEFT_GRABBER.setPosition(r.LG_MAX);
-        r.RIGHT_GRABBER.setPosition(r.RG_MAX);
-        sleep(1000);
-        r.LIFT_1.setPower(0.3);
-        r.LIFT_2.setPower(0.3);
-        sleep(750);
-        r.LIFT_1.setPower(0);
-        r.LIFT_2.setPower(0);
+            sleep(500);
 
-        sleep(500);
-
-        run();
+            run();
+        }
     }
 
     public abstract void run();
@@ -144,6 +145,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     }
 
     public void driveNew(double inches, double pwr, double timeout) {
+        if (!opModeIsActive()) return;
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         int newLeftTicks = r.LEFT_FRONT.getCurrentPosition() + (int)(inches * PPI);
         int newRightTicks = r.LEFT_BACK.getCurrentPosition() + (int)(inches * PPI);
@@ -154,6 +156,9 @@ public abstract class AutonomousOpMode extends LinearOpMode {
                 telemetry.addData("Pos", "%05d | %05d", r.LEFT_FRONT.getCurrentPosition(), r.RIGHT_BACK.getCurrentPosition());
                 telemetry.addData("Tgt", "%05d | %05d", newLeftTicks, newRightTicks);
                 telemetry.update();
+                if (this.isStopRequested()) {
+                    return;
+                }
             }
         } else {
             setPwrNoAbs(-pwr);
@@ -161,6 +166,9 @@ public abstract class AutonomousOpMode extends LinearOpMode {
                 telemetry.addData("Pos", "%05d | %05d", r.LEFT_FRONT.getCurrentPosition(), r.RIGHT_BACK.getCurrentPosition());
                 telemetry.addData("Tgt", "%05d | %05d", newLeftTicks, newRightTicks);
                 telemetry.update();
+                if (this.isStopRequested()) {
+                    return;
+                }
             }
         }
 
@@ -168,6 +176,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     }
 
     public void turnEncoder(double inches, int direction, double pwr, double timeout) {
+        if (!opModeIsActive()) return;
         setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         int newLeftTicks = r.LEFT_FRONT.getCurrentPosition() + (int)(inches * PPI * -direction);
@@ -249,6 +258,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     }
 
     public void senseRedTurn() {
+        if (!opModeIsActive()) return;
         r.LEFT_EXT.setPosition(1);
         //r.RIGHT_EXT.setPosition(1);
         sleep(1000);
@@ -268,6 +278,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     }
 
     public void senseBlueTurn() {
+        if (!opModeIsActive()) return;
         r.LEFT_EXT.setPosition(1);
         //r.RIGHT_EXT.setPosition(1);
         telemetry.addData("Red", r.COLOR_SENSOR_RED.red());
@@ -290,6 +301,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     }
 
     public void driveUntilFlat(double threshold, double pwr) {
+        if (!opModeIsActive()) return;
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         setPwrNoAbs(pwr);
         double pitch = pitch();
@@ -299,12 +311,16 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             telemetry.addData("pitch", pitch);
             telemetry.update();
             pitch = pitch();
+            if (this.isStopRequested()) {
+                return;
+            }
         }
         setPwr(0);
         resetEnc();
     }
 
     public void turnUntilHeading(double heading, double pwr, double dir, double timeout) {
+        if (!opModeIsActive()) return;
         double yaw = yaw();
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         runtime.reset();
@@ -317,24 +333,53 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             telemetry.addData("", "Distance: %s", distance(yaw,heading));
             telemetry.update();
             yaw = yaw();
+            if (this.isStopRequested()) {
+                return;
+            }
         }
         resetEnc();
         setPwr(0);
     }
 
     public void dragLeftTurnHeading(double heading, double pwr, double dir, double timeout) {
+        if (!opModeIsActive()) return;
         double yaw = yaw();
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         runtime.reset();
         while (Math.abs(distance(yaw, heading)) > HDNG_THRESHOLD && opModeIsActive() && runtime.seconds() < timeout) {
-            setLPwr(distance(yaw, heading) < 0? -pwr * dir:pwr * dir);
+            setLPwr(distance(yaw, heading) < 0 ? -pwr * dir : pwr * dir);
             //setRPwr(distance(yaw, heading) > 0? -pwr * dir:pwr * dir);
+            telemetry.addData("Turning", distance(yaw, heading) > 0 ? "Right" : "Left");
+            telemetry.addData("Power", pwr);
+            telemetry.addData("", "Heading Target: %s | Actual: %s", heading, yaw);
+            telemetry.addData("", "Distance: %s", distance(yaw, heading));
+            telemetry.update();
+            yaw = yaw();
+            if (this.isStopRequested()) {
+                return;
+            }
+        }
+        resetEnc();
+        setPwr(0);
+    }
+
+    public void dragRightTurnHeading(double heading, double pwr, double dir, double timeout) {
+        if (!opModeIsActive()) return;
+        double yaw = yaw();
+        setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        runtime.reset();
+        while (Math.abs(distance(yaw, heading)) > HDNG_THRESHOLD && opModeIsActive() && runtime.seconds() < timeout) {
+            //setLPwr(distance(yaw, heading) < 0? -pwr * dir:pwr * dir);
+            setRPwr(distance(yaw, heading) > 0? -pwr * dir:pwr * dir);
             telemetry.addData("Turning", distance(yaw, heading) > 0? "Right":"Left");
             telemetry.addData("Power", pwr);
             telemetry.addData("", "Heading Target: %s | Actual: %s", heading, yaw);
             telemetry.addData("", "Distance: %s", distance(yaw,heading));
             telemetry.update();
             yaw = yaw();
+            if (this.isStopRequested()) {
+                return;
+            }
         }
         resetEnc();
         setPwr(0);
@@ -357,12 +402,13 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     }
 
     public void depositBlock() {
+        if (!opModeIsActive()) return;
         sleep(500);
-        driveNew(-20, 0.3, 3);
+        driveNew(-20, 0.3, 2);
         sleep(250);
         releaseGrip();
         sleep(250);
-        driveNew(5, 0.3, 3);
+        driveNew(5, 0.3, 2);
         sleep(250);
         driveNew(-10, 0.3, 2);
         sleep(250);

@@ -28,6 +28,9 @@ public class TeleOpSplit extends LinearOpMode {
     public boolean a2_pressed = false;
     public boolean relic_toggled = false;
 
+    public boolean y2_pressed = false;
+    public boolean extendo_toggled = false;
+
     public void runOpMode() {
 
         r = new Robot(this);
@@ -51,6 +54,12 @@ public class TeleOpSplit extends LinearOpMode {
                 r.INTAKE.setSpeed(-1);
             } else {
                 r.INTAKE.setSpeed(0);
+            }
+
+            if (gamepad2.y && gamepad2.dpad_up) {
+                r.RAIL.setPosition(0);
+            } else if (gamepad2.y && gamepad2.dpad_down) {
+                r.RAIL.setPosition(.5);
             }
 
             telemetry.update();
@@ -167,7 +176,7 @@ public class TeleOpSplit extends LinearOpMode {
         if (gamepad2.left_trigger > 0.5) {
             r.RELICCC_BOTTOM.setPosition(.7);
         } else {
-            r.RELICCC_BOTTOM.setPosition(.2);
+            r.RELICCC_BOTTOM.setPosition(0);
         }
         if (gamepad2.a) {
             if (!a2_pressed) {
@@ -187,5 +196,6 @@ public class TeleOpSplit extends LinearOpMode {
         }
         relic_toggled = !relic_toggled;
     }
+
 
 }

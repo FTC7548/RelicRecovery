@@ -8,27 +8,32 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
  * Created by dchotzen-hartzell19 on 10/21/17.
  */
 
-@Autonomous(name="Blue Corner", group="Blue")
+@Autonomous(name="Blue Cornerk", group="Blue")
 public class BlueCorner extends AutonomousOpMode {
 
     @Override
     public void run() {
         RelicRecoveryVuMark v = getVision();
-        senseBlueTurn();
         sleep(500);
+        senseBlueTurn();
+        sleep(250);
         driveNew(-8, 0.3, 3);
         driveUntilFlat(3, -0.3);
-        driveNew(-10, 0.3, 3);
-        sleep(1000);
-        switch(v) {
-            case LEFT:
-                turnUntilHeading(105, 0.3, 1, 3);
-            case RIGHT:
-                turnUntilHeading(75, 0.3, 1, 3);
-            case CENTER:
-                turnUntilHeading(90, 0.3, 1, 3);
-            case UNKNOWN:
-                turnUntilHeading(90, 0.3, 1, 3);
+        sleep(500);
+        if (v == RelicRecoveryVuMark.LEFT) { // SHOULD BE LEFT ACTUALLY
+            driveNew(-7, 0.3, 3);
+            sleep(500);
+            dragLeftTurnHeading(45, 0.4, 1, 3);
+            sleep(500);
+            dragRightTurnHeading(105, 0.4, 1, 2);
+        } else if (v == RelicRecoveryVuMark.CENTER) {
+            //driveNew(-6, 0.3, 3);
+            sleep(500);
+            dragRightTurnHeading(85, 0.4, 1, 3);
+        } else if (v == RelicRecoveryVuMark.RIGHT || v == RelicRecoveryVuMark.UNKNOWN)  { // SHOULD BE RIGHT ACTUALLY
+            driveNew(-6, 0.3, 3);
+            sleep(500);
+            dragRightTurnHeading(85, 0.4, 1, 3);
         }
         depositBlock();
     }
