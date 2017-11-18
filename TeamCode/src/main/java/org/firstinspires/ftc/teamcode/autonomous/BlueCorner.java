@@ -21,7 +21,7 @@ public class BlueCorner extends AutonomousOpMode {
         driveUntilFlat(3, -0.3);
         sleep(500);
         if (v == RelicRecoveryVuMark.LEFT) { // SHOULD BE LEFT ACTUALLY
-            driveNew(-7, 0.3, 3);
+            driveNew(-7.5, 0.3, 3);
             sleep(500);
             dragLeftTurnHeading(45, 0.4, 1, 3);
             sleep(500);
