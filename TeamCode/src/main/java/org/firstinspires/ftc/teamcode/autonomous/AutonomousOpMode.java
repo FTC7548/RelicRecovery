@@ -20,6 +20,8 @@ public abstract class AutonomousOpMode extends LinearOpMode {
 
     public Robot r;
 
+    public static int TEST = 1;
+
     private final int PPR = 1890;
     private final double WHL_DIAM = 4;
 
@@ -414,5 +416,21 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         sleep(250);
         driveNew(3, 0.3, 2);
     }
+
+    public RelicRecoveryVuMark driveUntilVision(double pwr, double timeout) {
+        relicTrackables.activate();
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        int count = 0;
+        runtime.reset();
+        while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < timeout) {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            count++;
+            telemetry.addData("COUNT", count);
+            telemetry.addData("VUMARK", vuMark);
+            telemetry.update();
+        }
+        return vuMark;
+    }
+
 
 }
