@@ -20,7 +20,7 @@ public class RedCorner extends AutonomousOpMode {
         driveUntilFlat(3, 0.3);
         sleep(500);
         if (v == RelicRecoveryVuMark.LEFT) { // SHOULD BE LEF/T ACTUALLY
-            driveNew(4, 0.3, 3);
+            driveNew(5, 0.3, 3);
             sleep(1000);
             dragLeftTurnHeading(115, 0.4, 1, 3);
         } else if (v == RelicRecoveryVuMark.CENTER || v == RelicRecoveryVuMark.UNKNOWN) {
