@@ -13,6 +13,7 @@ public class RedCorner extends AutonomousOpMode {
 
     @Override
     public void run() {
+        
         senseRedTurn();
         sleep(500);
         RelicRecoveryVuMark v = driveUntilVision(.2, 3);
