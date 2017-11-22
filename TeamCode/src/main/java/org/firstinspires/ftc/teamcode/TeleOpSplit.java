@@ -84,6 +84,10 @@ public class TeleOpSplit extends LinearOpMode {
     public void drive() {
         double l_pwr = Math.pow(gamepad1.left_stick_y, 3);
         double r_pwr = Math.pow(gamepad1.right_stick_y, 3);
+        if(gamepad2.dpad_left) {
+            l_pwr = l_pwr / 4;
+            r_pwr = r_pwr / 4;
+        }
         r.LEFT_BACK.setPower(l_pwr);
         r.RIGHT_BACK.setPower(r_pwr);
         r.LEFT_FRONT.setPower(l_pwr);
@@ -174,7 +178,7 @@ public class TeleOpSplit extends LinearOpMode {
 
     public void relic() {
         if (gamepad2.left_trigger > 0.5) {
-            r.RELICCC_BOTTOM.setPosition(.7);
+            r.RELICCC_BOTTOM.setPosition(.9);
         } else {
             r.RELICCC_BOTTOM.setPosition(0);
         }
@@ -190,7 +194,7 @@ public class TeleOpSplit extends LinearOpMode {
 
     public void toggleRelic() {
         if (relic_toggled) {
-            r.RELICCC_TOP.setPosition(1);
+            r.RELICCC_TOP.setPosition(0.4);
         } else {
             r.RELICCC_TOP.setPosition(0);
         }
