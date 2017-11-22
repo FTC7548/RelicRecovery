@@ -15,7 +15,7 @@ public class RedCorner extends AutonomousOpMode {
     public void run() {
         senseRedTurn();
         sleep(500);
-        RelicRecoveryVuMark v = driveUntilVision(.2, 3);
+        RelicRecoveryVuMark v = driveUntilVision(.1, 1);
         driveUntilFlat(3, 0.3);
         sleep(500);
         if (v == RelicRecoveryVuMark.LEFT) { // SHOULD BE LEFT ACTUALLY
