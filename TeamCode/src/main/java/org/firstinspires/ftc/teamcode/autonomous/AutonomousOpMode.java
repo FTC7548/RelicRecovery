@@ -25,6 +25,10 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     private final int PPR = 1890;
     private final double WHL_DIAM = 4;
 
+    private final double JUULPWR = .15;
+    private final double JUULDIST = 2;
+
+
     private final double HDNG_THRESHOLD = 10;
 
     private final double PPI = PPR / (WHL_DIAM * Math.PI);
@@ -265,17 +269,17 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         //r.RIGHT_EXT.setPosition(1);
         sleep(1000);
         if (r.COLOR_SENSOR_RED.red() > r.COLOR_SENSOR_RED.blue()) {
-            turnEncoder(2, 1, 0.2, 2);
+            turnEncoder(JUULDIST, 1, JUULPWR, 2);
             sleep(250);
             r.LEFT_EXT.setPosition(0);
             sleep(250);
-            turnEncoder(2, -1, 0.2, 2);
+            turnEncoder(JUULDIST, -1, JUULPWR, 2);
         } else {
-            turnEncoder(2, -1, 0.2, 2);
+            turnEncoder(JUULDIST, -1, JUULPWR, 2);
             sleep(250);
             r.LEFT_EXT.setPosition(0);
             sleep(250);
-            turnEncoder(2, 1, 0.2, 2);
+            turnEncoder(JUULDIST, 1, JUULPWR, 2);
         }
     }
 
@@ -288,17 +292,17 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         telemetry.update();
         sleep(1000);
         if (r.COLOR_SENSOR_RED.blue() > r.COLOR_SENSOR_RED.red()) {
-            turnEncoder(2, 1, 0.2, 2);
+            turnEncoder(JUULDIST, 1, JUULPWR, 2);
             sleep(250);
             r.LEFT_EXT.setPosition(0);
             sleep(250);
-            turnEncoder(2, -1, 0.2, 2);
+            turnEncoder(JUULDIST, -1, JUULPWR, 2);
         } else {
-            turnEncoder(2, -1, 0.2, 2);
+            turnEncoder(JUULDIST, -1, JUULPWR, 2);
             sleep(250);
             r.LEFT_EXT.setPosition(0);
             sleep(250);
-            turnEncoder(2, 1, 0.2, 2);
+            turnEncoder(JUULDIST, 1, JUULPWR, 2);
         }
     }
 
@@ -406,12 +410,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     public void depositBlock() {
         if (!opModeIsActive()) return;
         sleep(500);
-        r.LIFT_1.setPower(-0.3);
-        r.LIFT_2.setPower(-0.3);
-        sleep(450);
-        r.LIFT_1.setPower(0);
-        r.LIFT_2.setPower(0);
-        sleep(250);
         driveNew(-20, 0.3, 2);
         sleep(250);
         releaseGrip();
@@ -421,18 +419,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         driveNew(-10, 0.3, 2);
         sleep(250);
         driveNew(3, 0.3, 2);
-        r.LIFT_1.setPower(0.3);
-        r.LIFT_2.setPower(0.3);
-        sleep(850);
-        r.LIFT_1.setPower(0);
-        r.LIFT_2.setPower(0);
-        r.INTAKE.setPosition(0);
-        sleep(250);
-        r.LIFT_1.setPower(-0.3);
-        r.LIFT_2.setPower(-0.3);
-        sleep(850);
-        r.LIFT_1.setPower(0);
-        r.LIFT_2.setPower(0);
     }
 
     public RelicRecoveryVuMark driveUntilVision(double pwr, double timeout) {
@@ -440,6 +426,8 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         int count = 0;
         runtime.reset();
+        setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        setPwr(pwr);
         while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < timeout) {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             count++;

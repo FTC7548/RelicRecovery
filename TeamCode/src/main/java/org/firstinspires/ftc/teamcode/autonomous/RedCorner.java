@@ -13,13 +13,13 @@ public class RedCorner extends AutonomousOpMode {
 
     @Override
     public void run() {
-        RelicRecoveryVuMark v = getVision();
+        
         senseRedTurn();
-        sleep(1000);
-        driveNew(8, 0.3, 3);
+        sleep(500);
+        RelicRecoveryVuMark v = driveUntilVision(.2, 3);
         driveUntilFlat(3, 0.3);
         sleep(500);
-        if (v == RelicRecoveryVuMark.LEFT) { // SHOULD BE LEF/T ACTUALLY
+        if (v == RelicRecoveryVuMark.LEFT) { // SHOULD BE LEFT ACTUALLY
             driveNew(5, 0.3, 3);
             sleep(1000);
             dragLeftTurnHeading(115, 0.4, 1, 3);
