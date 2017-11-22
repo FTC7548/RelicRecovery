@@ -85,8 +85,8 @@ public class TeleOpSplit extends LinearOpMode {
         double l_pwr = Math.pow(gamepad1.left_stick_y, 3);
         double r_pwr = Math.pow(gamepad1.right_stick_y, 3);
         if(gamepad2.dpad_left) {
-            l_pwr = l_pwr / 4;
-            r_pwr = r_pwr / 4;
+            l_pwr /= 4;
+            r_pwr /= 4;
         }
         r.LEFT_BACK.setPower(l_pwr);
         r.RIGHT_BACK.setPower(r_pwr);
