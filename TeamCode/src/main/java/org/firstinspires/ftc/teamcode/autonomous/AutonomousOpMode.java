@@ -367,6 +367,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         }
         resetEnc();
         setPwr(0);
+        
     }
 
     public void dragRightTurnHeading(double heading, double pwr, double dir, double timeout) {
