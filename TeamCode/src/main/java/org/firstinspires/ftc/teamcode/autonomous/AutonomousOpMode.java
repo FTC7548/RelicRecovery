@@ -367,7 +367,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         }
         resetEnc();
         setPwr(0);
-
     }
 
     public void dragRightTurnHeading(double heading, double pwr, double dir, double timeout) {
@@ -411,12 +410,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     public void depositBlock() {
         if (!opModeIsActive()) return;
         sleep(500);
-        r.LIFT_1.setPower(-0.3);
-        r.LIFT_2.setPower(-0.3);
-        sleep(450);
-        r.LIFT_1.setPower(0);
-        r.LIFT_2.setPower(0);
-        sleep(250);
         driveNew(-20, 0.3, 2);
         sleep(250);
         releaseGrip();
@@ -425,19 +418,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         sleep(250);
         driveNew(-10, 0.3, 2);
         sleep(250);
-        driveNew(4, 0.3, 2);
-        r.LIFT_1.setPower(0.3);
-        r.LIFT_2.setPower(0.3);
-        sleep(850);
-        r.LIFT_1.setPower(0);
-        r.LIFT_2.setPower(0);
-        r.INTAKE.setPosition(0);
-        sleep(250);
-        r.LIFT_1.setPower(-0.3);
-        r.LIFT_2.setPower(-0.3);
-        sleep(850);
-        r.LIFT_1.setPower(0);
-        r.LIFT_2.setPower(0);
+        driveNew(3, 0.3, 2);
     }
 
     public RelicRecoveryVuMark driveUntilVision(double pwr, double timeout) {
@@ -446,33 +427,13 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         int count = 0;
         runtime.reset();
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < timeout) {
-            vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            count++;
-            telemetry.addData("COUNT", count);
-            telemetry.addData("VUMARK", vuMark);
-            telemetry.update();
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) return vuMark;
-        }
         setPwr(pwr);
-        runtime.reset();
         while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < timeout) {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             count++;
             telemetry.addData("COUNT", count);
             telemetry.addData("VUMARK", vuMark);
             telemetry.update();
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) return vuMark;
-        }
-        setPwr(-2.5*pwr);
-        runtime.reset();
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < 2*timeout) {
-            vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            count++;
-            telemetry.addData("COUNT", count);
-            telemetry.addData("VUMARK", vuMark);
-            telemetry.update();
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) return vuMark;
         }
         return vuMark;
     }
