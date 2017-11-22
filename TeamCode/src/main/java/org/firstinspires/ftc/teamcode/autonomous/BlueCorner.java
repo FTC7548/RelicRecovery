@@ -13,11 +13,10 @@ public class BlueCorner extends AutonomousOpMode {
 
     @Override
     public void run() {
-        RelicRecoveryVuMark v = getVision();
-        sleep(500);
         senseBlueTurn();
-        sleep(250);
-        driveNew(-8, 0.3, 3);
+        sleep(500);
+        RelicRecoveryVuMark v = driveUntilVision(.1, 1);
+        driveNew(-10, 0.3, 3);
         driveUntilFlat(3, -0.3);
         sleep(500);
         if (v == RelicRecoveryVuMark.LEFT) { // SHOULD BE LEFT ACTUALLY
@@ -27,7 +26,7 @@ public class BlueCorner extends AutonomousOpMode {
             sleep(500);
             dragRightTurnHeading(105, 0.4, 1, 2);
         } else if (v == RelicRecoveryVuMark.CENTER) {
-            driveNew(-1.7, 0.3, 3);
+            driveNew(-1.5, 0.3, 3);
             sleep(500);
             dragRightTurnHeading(85, 0.4, 1, 3);
         } else if (v == RelicRecoveryVuMark.RIGHT || v == RelicRecoveryVuMark.UNKNOWN)  { // SHOULD BE RIGHT ACTUALLY

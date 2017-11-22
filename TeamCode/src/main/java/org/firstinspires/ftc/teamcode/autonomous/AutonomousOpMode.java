@@ -25,6 +25,10 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     private final int PPR = 1890;
     private final double WHL_DIAM = 4;
 
+    private final double JUULPWR = .15;
+    private final double JUULDIST = 2;
+
+
     private final double HDNG_THRESHOLD = 10;
 
     private final double PPI = PPR / (WHL_DIAM * Math.PI);
@@ -265,17 +269,17 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         //r.RIGHT_EXT.setPosition(1);
         sleep(1000);
         if (r.COLOR_SENSOR_RED.red() > r.COLOR_SENSOR_RED.blue()) {
-            turnEncoder(2, 1, 0.2, 2);
+            turnEncoder(JUULDIST, 1, JUULPWR, 2);
             sleep(250);
             r.LEFT_EXT.setPosition(0);
             sleep(250);
-            turnEncoder(2, -1, 0.2, 2);
+            turnEncoder(JUULDIST, -1, JUULPWR, 2);
         } else {
-            turnEncoder(2, -1, 0.2, 2);
+            turnEncoder(JUULDIST, -1, JUULPWR, 2);
             sleep(250);
             r.LEFT_EXT.setPosition(0);
             sleep(250);
-            turnEncoder(2, 1, 0.2, 2);
+            turnEncoder(JUULDIST, 1, JUULPWR, 2);
         }
     }
 
@@ -288,17 +292,17 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         telemetry.update();
         sleep(1000);
         if (r.COLOR_SENSOR_RED.blue() > r.COLOR_SENSOR_RED.red()) {
-            turnEncoder(2, 1, 0.2, 2);
+            turnEncoder(JUULDIST, 1, JUULPWR, 2);
             sleep(250);
             r.LEFT_EXT.setPosition(0);
             sleep(250);
-            turnEncoder(2, -1, 0.2, 2);
+            turnEncoder(JUULDIST, -1, JUULPWR, 2);
         } else {
-            turnEncoder(2, -1, 0.2, 2);
+            turnEncoder(JUULDIST, -1, JUULPWR, 2);
             sleep(250);
             r.LEFT_EXT.setPosition(0);
             sleep(250);
-            turnEncoder(2, 1, 0.2, 2);
+            turnEncoder(JUULDIST, 1, JUULPWR, 2);
         }
     }
 
@@ -363,6 +367,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         }
         resetEnc();
         setPwr(0);
+
     }
 
     public void dragRightTurnHeading(double heading, double pwr, double dir, double timeout) {
@@ -420,7 +425,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         sleep(250);
         driveNew(-10, 0.3, 2);
         sleep(250);
-        driveNew(3, 0.3, 2);
+        driveNew(4, 0.3, 2);
         r.LIFT_1.setPower(0.3);
         r.LIFT_2.setPower(0.3);
         sleep(850);
@@ -440,12 +445,34 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         int count = 0;
         runtime.reset();
+        setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < timeout) {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             count++;
             telemetry.addData("COUNT", count);
             telemetry.addData("VUMARK", vuMark);
             telemetry.update();
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) return vuMark;
+        }
+        setPwr(pwr);
+        runtime.reset();
+        while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < timeout) {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            count++;
+            telemetry.addData("COUNT", count);
+            telemetry.addData("VUMARK", vuMark);
+            telemetry.update();
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) return vuMark;
+        }
+        setPwr(-2.5*pwr);
+        runtime.reset();
+        while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < 2*timeout) {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            count++;
+            telemetry.addData("COUNT", count);
+            telemetry.addData("VUMARK", vuMark);
+            telemetry.update();
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) return vuMark;
         }
         return vuMark;
     }
