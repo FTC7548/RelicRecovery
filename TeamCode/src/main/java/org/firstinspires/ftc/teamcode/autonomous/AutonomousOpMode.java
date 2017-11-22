@@ -406,6 +406,12 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     public void depositBlock() {
         if (!opModeIsActive()) return;
         sleep(500);
+        r.LIFT_1.setPower(-0.3);
+        r.LIFT_2.setPower(-0.3);
+        sleep(450);
+        r.LIFT_1.setPower(0);
+        r.LIFT_2.setPower(0);
+        sleep(250);
         driveNew(-20, 0.3, 2);
         sleep(250);
         releaseGrip();
@@ -415,6 +421,18 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         driveNew(-10, 0.3, 2);
         sleep(250);
         driveNew(3, 0.3, 2);
+        r.LIFT_1.setPower(0.3);
+        r.LIFT_2.setPower(0.3);
+        sleep(850);
+        r.LIFT_1.setPower(0);
+        r.LIFT_2.setPower(0);
+        r.INTAKE.setPosition(0);
+        sleep(250);
+        r.LIFT_1.setPower(-0.3);
+        r.LIFT_2.setPower(-0.3);
+        sleep(850);
+        r.LIFT_1.setPower(0);
+        r.LIFT_2.setPower(0);
     }
 
     public RelicRecoveryVuMark driveUntilVision(double pwr, double timeout) {

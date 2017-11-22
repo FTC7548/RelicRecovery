@@ -27,7 +27,7 @@ public class BlueCorner extends AutonomousOpMode {
             sleep(500);
             dragRightTurnHeading(105, 0.4, 1, 2);
         } else if (v == RelicRecoveryVuMark.CENTER) {
-            //driveNew(-6, 0.3, 3);
+            driveNew(-1.7, 0.3, 3);
             sleep(500);
             dragRightTurnHeading(85, 0.4, 1, 3);
         } else if (v == RelicRecoveryVuMark.RIGHT || v == RelicRecoveryVuMark.UNKNOWN)  { // SHOULD BE RIGHT ACTUALLY
