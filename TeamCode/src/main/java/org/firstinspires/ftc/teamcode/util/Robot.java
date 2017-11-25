@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.util;
 
-import android.hardware.fingerprint.FingerprintManager;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -41,7 +39,6 @@ public class Robot {
                     RAIL,
                     RELICCC_TOP,
                     RELICCC_BOTTOM;
-    ;
 
     public Intake INTAKE;
 
@@ -72,6 +69,11 @@ public class Robot {
 
     //public Telemetry t = opMode.telemetry;
 
+    public Robot(LinearOpMode opMode, boolean disableExt) {
+        this(opMode);
+        if (disableExt) LEFT_EXT = null;
+    }
+
     public Robot(LinearOpMode opMode) {
         HardwareMap hardwareMap = opMode.hardwareMap;
         LEFT_FRONT = hardwareMap.dcMotor.get("left_front");
@@ -92,8 +94,6 @@ public class Robot {
 
         RAIL = hardwareMap.servo.get("rail");
         RAIL.setPosition(.5);
-
-
 
 
         LIFT_TOUCH_SENSOR = hardwareMap.digitalChannel.get("lift_touch_sensor");

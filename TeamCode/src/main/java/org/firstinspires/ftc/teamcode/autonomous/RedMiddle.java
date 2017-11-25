@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-
 /**
  * Created by dchotzen-hartzell19 on 10/21/17.
  */
@@ -13,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 public class RedMiddle extends AutonomousOpMode {
 
 	@Override public void run() {
-		RelicRecoveryVuMark v = getVision();
+		//RelicRecoveryVuMark v = getVision();
 		senseRedTurn();
 		sleep(1000);
 		driveNew(8, 0.3, 3);

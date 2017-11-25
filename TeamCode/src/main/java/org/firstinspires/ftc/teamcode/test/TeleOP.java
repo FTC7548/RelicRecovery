@@ -20,6 +20,7 @@ public class TeleOP extends LinearOpMode {
 
         r = new Robot(this);
         ElapsedTime time = new ElapsedTime();
+
         waitForStart();
 
         time.reset();

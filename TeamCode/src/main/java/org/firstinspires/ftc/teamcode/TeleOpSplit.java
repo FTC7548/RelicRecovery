@@ -14,28 +14,25 @@ import org.firstinspires.ftc.teamcode.util.Robot;
 @TeleOp(name="Tank Drive Split Controls")
 public class TeleOpSplit extends LinearOpMode {
 
+    private final double RELIC_INC = 0.001;
     public Robot r;
-
     public boolean a_pressed = false;
     public boolean grabber_toggled = false;
-
     public boolean b_pressed = false;
     public boolean intake_toggled = false;
-
     public boolean y_pressed = false;
     public boolean back_toggled = false;
-
     public boolean a2_pressed = false;
     public boolean relic_toggled = false;
-
     public boolean y2_pressed = false;
     public boolean extendo_toggled = false;
 
     public void runOpMode() {
 
-        r = new Robot(this);
+        r = new Robot(this, true);
         ElapsedTime time = new ElapsedTime();
         waitForStart();
+        //r.LEFT_EXT.setPosition(.2);
 
         time.reset();
 
@@ -56,10 +53,14 @@ public class TeleOpSplit extends LinearOpMode {
                 r.INTAKE.setSpeed(0);
             }
 
-            if (gamepad2.y && gamepad2.dpad_up) {
-                r.RAIL.setPosition(0);
-            } else if (gamepad2.y && gamepad2.dpad_down) {
-                r.RAIL.setPosition(.5);
+            if (gamepad2.y && gamepad2.dpad_up && !y2_pressed) {
+                y2_pressed = true;
+                r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - .15, 0, 0.6));
+            } else if (gamepad2.y && gamepad2.dpad_down && !y2_pressed) {
+                y2_pressed = true;
+                r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() + .15, 0, 0.7));
+            } else if (y2_pressed && !gamepad2.y) {
+                y2_pressed = false;
             }
 
             telemetry.update();
@@ -84,9 +85,9 @@ public class TeleOpSplit extends LinearOpMode {
     public void drive() {
         double l_pwr = Math.pow(gamepad1.left_stick_y, 3);
         double r_pwr = Math.pow(gamepad1.right_stick_y, 3);
-        if(gamepad2.dpad_left) {
-            l_pwr = l_pwr / 4;
-            r_pwr = r_pwr / 4;
+        if (gamepad1.right_bumper) {
+            l_pwr = l_pwr / 2;
+            r_pwr = r_pwr / 2;
         }
         r.LEFT_BACK.setPower(l_pwr);
         r.RIGHT_BACK.setPower(r_pwr);
@@ -97,7 +98,6 @@ public class TeleOpSplit extends LinearOpMode {
         telemetry.addData("GRAB", "L: %s | R: %s", r.LEFT_GRABBER.getPosition(), r.RIGHT_GRABBER.getPosition());
 
     }
-
 
     public void intake() {
         if (gamepad2.x) {
@@ -129,7 +129,6 @@ public class TeleOpSplit extends LinearOpMode {
             a_pressed = false;
         }
     }
-
 
     public void toggleGrabber() {
         if (grabber_toggled) {
@@ -164,8 +163,6 @@ public class TeleOpSplit extends LinearOpMode {
         back_toggled = !back_toggled;
     }
 
-    private final double RELIC_INC = 0.001;
-
     public void rail() {
         if (gamepad2.dpad_up) {
             r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - RELIC_INC, 0.01, 0.99));
@@ -194,9 +191,9 @@ public class TeleOpSplit extends LinearOpMode {
 
     public void toggleRelic() {
         if (relic_toggled) {
-            r.RELICCC_TOP.setPosition(0.4);
+            r.RELICCC_TOP.setPosition(0.75);
         } else {
-            r.RELICCC_TOP.setPosition(0);
+            r.RELICCC_TOP.setPosition(0.35);
         }
         relic_toggled = !relic_toggled;
     }

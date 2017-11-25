@@ -18,32 +18,22 @@ import org.firstinspires.ftc.teamcode.util.Robot;
 
 public abstract class AutonomousOpMode extends LinearOpMode {
 
-    public Robot r;
-
     public static int TEST = 1;
-
     private final int PPR = 1890;
     private final double WHL_DIAM = 4;
-
     private final double JUULPWR = .15;
-    private final double JUULDIST = 2;
-
-
+    private final double JUULDIST = 3;
     private final double HDNG_THRESHOLD = 10;
-
     private final double PPI = PPR / (WHL_DIAM * Math.PI);
-
-    private ElapsedTime runtime = new ElapsedTime();
-
-    private VuforiaTrackables relicTrackables;
-    private VuforiaTrackable relicTemplate;
-
-
+    public Robot r;
+    public RelicRecoveryVuMark v = RelicRecoveryVuMark.UNKNOWN;
     // Vuforia Stuff
     OpenGLMatrix lastLocation = null;
     VuforiaLocalizer vuforia;
-
     Orientation angles;
+    private ElapsedTime runtime = new ElapsedTime();
+    private VuforiaTrackables relicTrackables;
+    private VuforiaTrackable relicTemplate;
 
     @Override
     public void runOpMode() {
@@ -66,7 +56,8 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-
+            relicTrackables.activate();
+            new Thread(new VisionBot()).start();
             r.LEFT_GRABBER.setPosition(r.LG_MAX);
             r.RIGHT_GRABBER.setPosition(r.RG_MAX);
             sleep(1000);
@@ -84,12 +75,12 @@ public abstract class AutonomousOpMode extends LinearOpMode {
 
     public abstract void run();
 
-    public RelicRecoveryVuMark getVision() {
+    public RelicRecoveryVuMark getVision(double timeout) {
         relicTrackables.activate();
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         int count = 0;
         runtime.reset();
-        while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < 5) {
+        while (vuMark == RelicRecoveryVuMark.UNKNOWN && runtime.seconds() < timeout) {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             count++;
             telemetry.addData("COUNT", count);
@@ -193,6 +184,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             while (r.LEFT_FRONT.getCurrentPosition() > newLeftTicks && r.RIGHT_BACK.getCurrentPosition() < newRightTicks && runtime.seconds() < timeout) {
                 telemetry.addData("Pos", "%05d | %05d", r.LEFT_FRONT.getCurrentPosition(), r.RIGHT_BACK.getCurrentPosition());
                 telemetry.addData("Tgt", "%05d | %05d", newLeftTicks, newRightTicks);
+
                 telemetry.update();
             }
         } else {
@@ -269,18 +261,27 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         //r.RIGHT_EXT.setPosition(1);
         sleep(1000);
         if (r.COLOR_SENSOR_RED.red() > r.COLOR_SENSOR_RED.blue()) {
-            turnEncoder(JUULDIST, 1, JUULPWR, 2);
-            sleep(250);
-            r.LEFT_EXT.setPosition(0);
-            sleep(250);
-            turnEncoder(JUULDIST, -1, JUULPWR, 2);
+            turnLeft();
         } else {
-            turnEncoder(JUULDIST, -1, JUULPWR, 2);
-            sleep(250);
-            r.LEFT_EXT.setPosition(0);
-            sleep(250);
-            turnEncoder(JUULDIST, 1, JUULPWR, 2);
+            turnRight();
         }
+    }
+
+    public void turnLeft() {
+        turnEncoder(JUULDIST, 1, JUULPWR, 2);
+        sleep(250);
+        r.LEFT_EXT.setPosition(0);
+        sleep(250);
+        turnEncoder(JUULDIST + 1, -1, JUULPWR, 2);
+        sleep(500);
+    }
+
+    public void turnRight() {
+        turnEncoder(JUULDIST, -1, JUULPWR, 2);
+        sleep(250);
+        r.LEFT_EXT.setPosition(0);
+        sleep(250);
+        turnEncoder(JUULDIST + 1, 1, JUULPWR, 2);
     }
 
     public void senseBlueTurn() {
@@ -410,6 +411,12 @@ public abstract class AutonomousOpMode extends LinearOpMode {
     public void depositBlock() {
         if (!opModeIsActive()) return;
         sleep(500);
+        r.LIFT_1.setPower(-0.3);
+        r.LIFT_2.setPower(-0.3);
+        sleep(450);
+        r.LIFT_1.setPower(0);
+        r.LIFT_2.setPower(0);
+        sleep(250);
         driveNew(-20, 0.3, 2);
         sleep(250);
         releaseGrip();
@@ -418,7 +425,20 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         sleep(250);
         driveNew(-10, 0.3, 2);
         sleep(250);
-        driveNew(3, 0.3, 2);
+        driveNew(5, 0.3, 2);
+        r.LIFT_1.setPower(0.3);
+        r.LIFT_2.setPower(0.3);
+        sleep(850);
+        r.LIFT_1.setPower(0);
+        r.LIFT_2.setPower(0);
+        r.INTAKE.setPosition(0);
+        sleep(250);
+        r.LIFT_1.setPower(-0.3);
+        r.LIFT_2.setPower(-0.3);
+        sleep(850);
+        r.LIFT_1.setPower(0);
+        r.LIFT_2.setPower(0);
+        //driveNew(-2, 0.3, 2);
     }
 
     public RelicRecoveryVuMark driveUntilVision(double pwr, double timeout) {
@@ -434,9 +454,42 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             telemetry.addData("COUNT", count);
             telemetry.addData("VUMARK", vuMark);
             telemetry.update();
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN) return vuMark;
         }
         return vuMark;
     }
 
+    public void driveALittle(int dir) {
+        if (v == RelicRecoveryVuMark.UNKNOWN) {
+            sleep(250);
+            driveNew(dir * 1, .3, 1.5);
+            sleep(250);
+            driveNew(-dir * 1, .3, 1.5);
+            sleep(250);
+            driveNew(-dir * 1, .3, 1.5);
+            sleep(250);
+        }
+    }
 
+    public class VisionBot implements Runnable {
+        public RelicRecoveryVuMark vuMark;
+
+        @Override
+        public void run() {
+            int count = 0;
+            while (v == RelicRecoveryVuMark.UNKNOWN) {
+                if (RelicRecoveryVuMark.from(relicTemplate) != RelicRecoveryVuMark.UNKNOWN) {
+                    v = RelicRecoveryVuMark.from(relicTemplate);
+                    break;
+                }
+                telemetry.addData("VuMark", v);
+                telemetry.addData("count", count);
+                telemetry.update();
+                sleep(30);
+                count++;
+                idle();
+            }
+
+        }
+    }
 }

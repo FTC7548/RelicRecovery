@@ -15,7 +15,8 @@ public class BlueCorner extends AutonomousOpMode {
     public void run() {
         senseBlueTurn();
         sleep(500);
-        RelicRecoveryVuMark v = driveUntilVision(.1, 3);
+        driveALittle(1);
+        sleep(250);
         driveNew(-10, 0.3, 3);
         driveUntilFlat(3, -0.3);
         sleep(500);

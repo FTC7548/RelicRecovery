@@ -11,7 +11,7 @@ public class TestVision extends AutonomousOpMode {
 
     @Override
     public void run() {
-        getVision();
+        //getVision();
         sleep(10000);
     }
 }
