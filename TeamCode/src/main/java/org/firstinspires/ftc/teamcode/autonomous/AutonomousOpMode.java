@@ -259,7 +259,15 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         if (!opModeIsActive()) return;
         r.LEFT_EXT.setPosition(1);
         //r.RIGHT_EXT.setPosition(1);
+        telemetry.addData("Red", r.COLOR_SENSOR_RED.red());
+        telemetry.addData("Blue", r.COLOR_SENSOR_RED.blue());
+        telemetry.update();
         sleep(1000);
+        if (Math.abs(r.COLOR_SENSOR_RED.red() - r.COLOR_SENSOR_RED.blue()) < 5) {
+            r.LEFT_EXT.setPosition(0);
+            sleep(300);
+            return;
+        }
         if (r.COLOR_SENSOR_RED.red() > r.COLOR_SENSOR_RED.blue()) {
             turnLeft();
         } else {
@@ -272,7 +280,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         sleep(250);
         r.LEFT_EXT.setPosition(0);
         sleep(250);
-        turnEncoder(JUULDIST + 1, -1, JUULPWR, 2);
+        turnEncoder(JUULDIST, -1, JUULPWR, 2);
         sleep(500);
     }
 
@@ -281,7 +289,7 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         sleep(250);
         r.LEFT_EXT.setPosition(0);
         sleep(250);
-        turnEncoder(JUULDIST + 1, 1, JUULPWR, 2);
+        turnEncoder(JUULDIST, 1, JUULPWR, 2);
     }
 
     public void senseBlueTurn() {
@@ -292,6 +300,11 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         telemetry.addData("Blue", r.COLOR_SENSOR_RED.blue());
         telemetry.update();
         sleep(1000);
+        if (Math.abs(r.COLOR_SENSOR_RED.red() - r.COLOR_SENSOR_RED.blue()) < 5) {
+            r.LEFT_EXT.setPosition(0);
+            sleep(300);
+            return;
+        }
         if (r.COLOR_SENSOR_RED.blue() > r.COLOR_SENSOR_RED.red()) {
             turnEncoder(JUULDIST, 1, JUULPWR, 2);
             sleep(250);

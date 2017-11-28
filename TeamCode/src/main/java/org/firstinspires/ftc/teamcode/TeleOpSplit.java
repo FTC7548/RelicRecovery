@@ -55,7 +55,7 @@ public class TeleOpSplit extends LinearOpMode {
 
             if (gamepad2.y && gamepad2.dpad_up && !y2_pressed) {
                 y2_pressed = true;
-                r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - .15, 0, 0.6));
+                r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - .15, 0, 0.7));
             } else if (gamepad2.y && gamepad2.dpad_down && !y2_pressed) {
                 y2_pressed = true;
                 r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() + .15, 0, 0.7));
