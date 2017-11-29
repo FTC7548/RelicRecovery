@@ -25,18 +25,17 @@ public class Robot {
     public DcMotor  LIFT_1,
                     LIFT_2;
 
-    public DcMotor  INTAKE_L,
-                    INTAKE_R;
+    public DcMotor RAIL;
 
     public Servo    LEFT_GRABBER,
                     RIGHT_GRABBER,
                     LEFT_EXT,
-
+                    INTAKE_L,
+                    INTAKE_R,
                     INTAKE_LS,
                     INTAKE_RS,
                     BACK,
                     GRIP,
-                    RAIL,
                     RELICCC_TOP,
                     RELICCC_BOTTOM;
 
@@ -89,11 +88,8 @@ public class Robot {
         LIFT_1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LIFT_2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        INTAKE_R = hardwareMap.dcMotor.get("intake_r");
-        INTAKE_L = hardwareMap.dcMotor.get("intake_l");
-
-        RAIL = hardwareMap.servo.get("rail");
-        RAIL.setPosition(.5);
+        INTAKE_R = hardwareMap.servo.get("intake_r");
+        INTAKE_L = hardwareMap.servo.get("intake_l");
 
 
         LIFT_TOUCH_SENSOR = hardwareMap.digitalChannel.get("lift_touch_sensor");
@@ -110,6 +106,7 @@ public class Robot {
         INTAKE_RS = hardwareMap.servo.get("intake_rs");
         RELICCC_BOTTOM = hardwareMap.servo.get("grip");
         RELICCC_TOP = hardwareMap.servo.get("relic");
+        RAIL = hardwareMap.dcMotor.get("rail");
 
         INTAKE = new Intake(this);
 

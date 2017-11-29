@@ -53,16 +53,6 @@ public class TeleOpSplit extends LinearOpMode {
                 r.INTAKE.setSpeed(0);
             }
 
-            if (gamepad2.y && gamepad2.dpad_up && !y2_pressed) {
-                y2_pressed = true;
-                r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - .15, 0, 0.7));
-            } else if (gamepad2.y && gamepad2.dpad_down && !y2_pressed) {
-                y2_pressed = true;
-                r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() + .15, 0, 0.7));
-            } else if (y2_pressed && !gamepad2.y) {
-                y2_pressed = false;
-            }
-
             telemetry.update();
 
         }
@@ -165,12 +155,12 @@ public class TeleOpSplit extends LinearOpMode {
 
     public void rail() {
         if (gamepad2.dpad_up) {
-            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() - RELIC_INC, 0.01, 0.99));
-            telemetry.addData("Rail Pos", r.RAIL.getPosition());
+            r.RAIL.setPower(1);
         } else if (gamepad2.dpad_down){
-            r.RAIL.setPosition(Range.clip(r.RAIL.getPosition() + RELIC_INC, 0.01, 0.99));
+            r.RAIL.setPower(-1);
+        } else {
+            r.RAIL.setPower(0);
         }
-        telemetry.addData("Rail Pos", r.RAIL.getPosition());
     }
 
     public void relic() {

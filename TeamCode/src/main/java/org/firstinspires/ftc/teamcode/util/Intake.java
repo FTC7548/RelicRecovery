@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.util;
 
+import com.qualcomm.robotcore.hardware.Servo;
+
 /**
  * Created by dchotzen-hartzell19 on 10/30/17.
  */
@@ -27,8 +29,20 @@ public class Intake {
     }
 
     public void setSpeed(double pwr) {
-        r.INTAKE_L.setPower(pwr);
-        r.INTAKE_R.setPower(-pwr);
+        if (pwr > 0) {
+            r.INTAKE_L.setPosition(0);
+            r.INTAKE_R.setPosition(0);
+            r.INTAKE_L.setDirection(Servo.Direction.FORWARD);
+            r.INTAKE_R.setDirection(Servo.Direction.REVERSE);
+        } else if (pwr < 0){
+            r.INTAKE_L.setPosition(0);
+            r.INTAKE_R.setPosition(0);
+            r.INTAKE_L.setDirection(Servo.Direction.REVERSE);
+            r.INTAKE_R.setDirection(Servo.Direction.FORWARD);
+        } else {
+            r.INTAKE_L.setPosition(.5);
+            r.INTAKE_L.setPosition(.5);
+        }
     }
 
 }
