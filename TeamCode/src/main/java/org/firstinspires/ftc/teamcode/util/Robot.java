@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.util;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -30,14 +31,15 @@ public class Robot {
     public Servo    LEFT_GRABBER,
                     RIGHT_GRABBER,
                     LEFT_EXT,
-                    INTAKE_L,
-                    INTAKE_R,
                     INTAKE_LS,
                     INTAKE_RS,
                     BACK,
                     GRIP,
                     RELICCC_TOP,
                     RELICCC_BOTTOM;
+
+    public CRServo INTAKE_L,
+            INTAKE_R;
 
     public Intake INTAKE;
 
@@ -88,8 +90,8 @@ public class Robot {
         LIFT_1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LIFT_2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        INTAKE_R = hardwareMap.servo.get("intake_r");
-        INTAKE_L = hardwareMap.servo.get("intake_l");
+        INTAKE_R = hardwareMap.crservo.get("intake_r");
+        INTAKE_L = hardwareMap.crservo.get("intake_l");
 
 
         LIFT_TOUCH_SENSOR = hardwareMap.digitalChannel.get("lift_touch_sensor");

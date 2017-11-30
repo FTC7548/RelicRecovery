@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.util.Robot;
 
@@ -155,9 +154,9 @@ public class TeleOpSplit extends LinearOpMode {
 
     public void rail() {
         if (gamepad2.dpad_up) {
-            r.RAIL.setPower(1);
-        } else if (gamepad2.dpad_down){
             r.RAIL.setPower(-1);
+        } else if (gamepad2.dpad_down){
+            r.RAIL.setPower(1);
         } else {
             r.RAIL.setPower(0);
         }
