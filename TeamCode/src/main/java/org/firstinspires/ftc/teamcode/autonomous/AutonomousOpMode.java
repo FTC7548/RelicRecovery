@@ -268,11 +268,45 @@ public abstract class AutonomousOpMode extends LinearOpMode {
             sleep(300);
             return;
         }
-        if (r.COLOR_SENSOR_RED.red() > r.COLOR_SENSOR_RED.blue()) {
-            turnLeft();
+        if (r.COLOR_SENSOR_RED.red() < r.COLOR_SENSOR_RED.blue()) {
+            driveFwd();
         } else {
-            turnRight();
+            driveBack();
         }
+    }
+
+    public void senseBlueTurn() {
+        if (!opModeIsActive()) return;
+        r.LEFT_EXT.setPosition(1);
+        //r.RIGHT_EXT.setPosition(1);
+        telemetry.addData("Red", r.COLOR_SENSOR_RED.red());
+        telemetry.addData("Blue", r.COLOR_SENSOR_RED.blue());
+        telemetry.update();
+        sleep(1000);
+        if (Math.abs(r.COLOR_SENSOR_RED.red() - r.COLOR_SENSOR_RED.blue()) < 5) {
+            r.LEFT_EXT.setPosition(0);
+            sleep(300);
+            return;
+        }
+        if (r.COLOR_SENSOR_RED.blue() > r.COLOR_SENSOR_RED.red()) {
+            driveBack();
+        } else {
+            driveFwd();
+        }
+    }
+
+    public void driveBack() {
+        driveNew(-2, 0.1, 2);
+        sleep(250);
+        r.LEFT_EXT.setPosition(0);
+        sleep(500);
+        driveNew(3, 0.3, 2);
+    }
+
+    public void driveFwd() {
+        driveNew(2, 0.1, 2);
+        sleep(250);
+        r.LEFT_EXT.setPosition(0);
     }
 
     public void turnLeft() {
@@ -292,33 +326,6 @@ public abstract class AutonomousOpMode extends LinearOpMode {
         turnEncoder(JUULDIST, 1, JUULPWR, 2);
     }
 
-    public void senseBlueTurn() {
-        if (!opModeIsActive()) return;
-        r.LEFT_EXT.setPosition(1);
-        //r.RIGHT_EXT.setPosition(1);
-        telemetry.addData("Red", r.COLOR_SENSOR_RED.red());
-        telemetry.addData("Blue", r.COLOR_SENSOR_RED.blue());
-        telemetry.update();
-        sleep(1000);
-        if (Math.abs(r.COLOR_SENSOR_RED.red() - r.COLOR_SENSOR_RED.blue()) < 5) {
-            r.LEFT_EXT.setPosition(0);
-            sleep(300);
-            return;
-        }
-        if (r.COLOR_SENSOR_RED.blue() > r.COLOR_SENSOR_RED.red()) {
-            turnEncoder(JUULDIST, 1, JUULPWR, 2);
-            sleep(250);
-            r.LEFT_EXT.setPosition(0);
-            sleep(250);
-            turnEncoder(JUULDIST, -1, JUULPWR, 2);
-        } else {
-            turnEncoder(JUULDIST, -1, JUULPWR, 2);
-            sleep(250);
-            r.LEFT_EXT.setPosition(0);
-            sleep(250);
-            turnEncoder(JUULDIST, 1, JUULPWR, 2);
-        }
-    }
 
     public void driveUntilFlat(double threshold, double pwr) {
         if (!opModeIsActive()) return;
