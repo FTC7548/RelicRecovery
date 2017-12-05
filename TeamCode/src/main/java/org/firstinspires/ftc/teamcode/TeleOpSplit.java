@@ -25,6 +25,9 @@ public class TeleOpSplit extends LinearOpMode {
     public boolean relic_toggled = false;
     public boolean y2_pressed = false;
     public boolean extendo_toggled = false;
+    public boolean liftMacro_pressed = false;
+    public boolean rightBump2_pressed = false;
+    public boolean relicGrabber_toggled = false;
 
     public void runOpMode() {
 
@@ -43,13 +46,23 @@ public class TeleOpSplit extends LinearOpMode {
             back();
             rail();
             relic();
+            liftMacro();
 
-            if (gamepad2.right_bumper) {
-                r.INTAKE.setSpeed(1);
-            } else if (gamepad2.right_trigger > 0.5) {
-                r.INTAKE.setSpeed(-1);
+            if (gamepad2.right_stick_y > 0.5) {
+                r.INTAKE_L.setPower(-.7);
+                r.INTAKE_R.setPower(.7);
+            } else if (gamepad2.right_stick_y < -0.5) {
+                r.INTAKE_L.setPower(.7);
+                r.INTAKE_R.setPower(-.7);
+            } else if(gamepad2.right_stick_x < -0.5) {
+                r.INTAKE_L.setPower(.7);
+                r.INTAKE_R.setPower(.7);
+            } else if(gamepad2.right_stick_x > 0.5) {
+                r.INTAKE_L.setPower(-.7);
+                r.INTAKE_R.setPower(-.7);
             } else {
-                r.INTAKE.setSpeed(0);
+                r.INTAKE_L.setPower(0);
+                r.INTAKE_R.setPower(0);
             }
 
             telemetry.update();
@@ -74,10 +87,6 @@ public class TeleOpSplit extends LinearOpMode {
     public void drive() {
         double l_pwr = Math.pow(gamepad1.left_stick_y, 3);
         double r_pwr = Math.pow(gamepad1.right_stick_y, 3);
-        if (gamepad1.right_bumper) {
-            l_pwr = l_pwr / 2;
-            r_pwr = r_pwr / 2;
-        }
         r.LEFT_BACK.setPower(l_pwr);
         r.RIGHT_BACK.setPower(r_pwr);
         r.LEFT_FRONT.setPower(l_pwr);
@@ -85,11 +94,10 @@ public class TeleOpSplit extends LinearOpMode {
         telemetry.addData("PWR", "L %.2f | R %.2f", l_pwr, r_pwr);
         telemetry.addData("LIFT", "1: %s | 2: %s", r.LIFT_1.getCurrentPosition(), r.LIFT_2.getCurrentPosition());
         telemetry.addData("GRAB", "L: %s | R: %s", r.LEFT_GRABBER.getPosition(), r.RIGHT_GRABBER.getPosition());
-
     }
 
     public void intake() {
-        if (gamepad2.x) {
+        if (gamepad2.y) {
             if (!y_pressed) {
                 toggleIntake();
                 y_pressed = true;
@@ -109,27 +117,28 @@ public class TeleOpSplit extends LinearOpMode {
     }
 
     public void grabber() {
-        if (gamepad1.a) {
-            if (!a_pressed) {
-                toggleGrabber();
-                a_pressed = true;
-            }
-        } else {
-            a_pressed = false;
-        }
-    }
-
-    public void toggleGrabber() {
-        if (grabber_toggled) {
-            r.LEFT_GRABBER.setPosition(r.LG_MIN);
-            r.RIGHT_GRABBER.setPosition(r.RG_MIN);
-            r.GRIP.setPosition(0.3);
-        } else {
+        if (gamepad1.right_bumper) {
             r.LEFT_GRABBER.setPosition(r.LG_MAX);
             r.RIGHT_GRABBER.setPosition(r.RG_MAX);
             r.GRIP.setPosition(0.7);
+        } else {
+            r.LEFT_GRABBER.setPosition(r.LG_MIN);
+            r.RIGHT_GRABBER.setPosition(r.RG_MIN);
+            r.GRIP.setPosition(0.3);
         }
-        grabber_toggled = !grabber_toggled;
+    }
+
+    public void liftMacro() {
+        if(gamepad1.dpad_up && !liftMacro_pressed) {
+            liftMacro_pressed = true;
+            //test if one lift moving at once can work
+            r.LIFT_1.setPower(1);
+            r.LIFT_2.setPower(1);
+            sleep(800);
+            r.LIFT_1.setPower(0);
+            r.LIFT_2.setPower(0);
+            liftMacro_pressed = false;
+        }
     }
 
     public void back() {
@@ -153,20 +162,24 @@ public class TeleOpSplit extends LinearOpMode {
     }
 
     public void rail() {
-        if (gamepad2.dpad_up) {
-            r.RAIL.setPower(-1);
-        } else if (gamepad2.dpad_down){
+        if (gamepad2.left_stick_y > 0) {
             r.RAIL.setPower(1);
+        } else if (gamepad2.left_stick_y < 0){
+            r.RAIL.setPower(-1);
         } else {
             r.RAIL.setPower(0);
         }
     }
 
     public void relic() {
-        if (gamepad2.left_trigger > 0.5) {
-            r.RELICCC_BOTTOM.setPosition(.9);
+
+        if (gamepad2.right_bumper) {
+            if (!rightBump2_pressed) {
+                rightBump2_pressed = true;
+                toggleRelicGrabber();
+            }
         } else {
-            r.RELICCC_BOTTOM.setPosition(0);
+            rightBump2_pressed = false;
         }
         if (gamepad2.a) {
             if (!a2_pressed) {
@@ -178,9 +191,18 @@ public class TeleOpSplit extends LinearOpMode {
         }
     }
 
+    public void toggleRelicGrabber() {
+        if (relicGrabber_toggled) {
+            r.RELICCC_BOTTOM.setPosition(.7);
+        } else {
+            r.RELICCC_BOTTOM.setPosition(0);
+        }
+        relicGrabber_toggled = !relicGrabber_toggled;
+    }
+
     public void toggleRelic() {
         if (relic_toggled) {
-            r.RELICCC_TOP.setPosition(0.75);
+            r.RELICCC_TOP.setPosition(0.725);
         } else {
             r.RELICCC_TOP.setPosition(0.35);
         }
