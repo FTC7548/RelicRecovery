@@ -12,7 +12,7 @@ public class Intake {
      */
     public double[][] positions = {
             {0, 1},
-            {0.525, 0.475}
+            {0.55, 0.45}
     };
     private Robot r;
 

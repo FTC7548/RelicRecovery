@@ -28,6 +28,7 @@ public class TeleOpSplit extends LinearOpMode {
     public boolean liftMacro_pressed = false;
     public boolean rightBump2_pressed = false;
     public boolean relicGrabber_toggled = false;
+    public double[] tankValues = {0, 0.5, 1};
 
     public void runOpMode() {
 
@@ -48,16 +49,16 @@ public class TeleOpSplit extends LinearOpMode {
             relic();
             liftMacro();
 
-            if (gamepad2.right_stick_y > 0.5) {
+            if (gamepad2.right_stick_y > 0.5 || gamepad1.y) {
                 r.INTAKE_L.setPower(-.7);
                 r.INTAKE_R.setPower(.7);
-            } else if (gamepad2.right_stick_y < -0.5) {
+            } else if (gamepad2.right_stick_y < -0.5 || gamepad1.a) {
                 r.INTAKE_L.setPower(.7);
                 r.INTAKE_R.setPower(-.7);
             } else if(gamepad2.right_stick_x < -0.5) {
                 r.INTAKE_L.setPower(.7);
                 r.INTAKE_R.setPower(.7);
-            } else if(gamepad2.right_stick_x > 0.5) {
+            } else if(gamepad2.right_stick_x > 0.5 || gamepad1.b) {
                 r.INTAKE_L.setPower(-.7);
                 r.INTAKE_R.setPower(-.7);
             } else {
@@ -85,6 +86,12 @@ public class TeleOpSplit extends LinearOpMode {
     }
 
     public void drive() {
+        /*
+        int l_temp = (int) Math.floor(gamepad1.left_stick_y * 3);
+        int r_temp = (int) Math.floor(gamepad1.right_stick_y * 3);
+        double l_pwr = tankValues[l_temp] * gamepad1.left_stick_y / Math.abs(gamepad1.left_stick_y);
+        double r_pwr = tankValues[r_temp] * gamepad1.right_stick_y / Math.abs(gamepad1.right_stick_y);
+        */
         double l_pwr = Math.pow(gamepad1.left_stick_y, 3);
         double r_pwr = Math.pow(gamepad1.right_stick_y, 3);
         r.LEFT_BACK.setPower(l_pwr);
@@ -97,7 +104,7 @@ public class TeleOpSplit extends LinearOpMode {
     }
 
     public void intake() {
-        if (gamepad2.y) {
+        if (gamepad2.y || gamepad1.x) {
             if (!y_pressed) {
                 toggleIntake();
                 y_pressed = true;
@@ -193,7 +200,7 @@ public class TeleOpSplit extends LinearOpMode {
 
     public void toggleRelicGrabber() {
         if (relicGrabber_toggled) {
-            r.RELICCC_BOTTOM.setPosition(.7);
+            r.RELICCC_BOTTOM.setPosition(.85);
         } else {
             r.RELICCC_BOTTOM.setPosition(0);
         }
@@ -202,7 +209,7 @@ public class TeleOpSplit extends LinearOpMode {
 
     public void toggleRelic() {
         if (relic_toggled) {
-            r.RELICCC_TOP.setPosition(0.725);
+            r.RELICCC_TOP.setPosition(0.70);
         } else {
             r.RELICCC_TOP.setPosition(0.35);
         }
