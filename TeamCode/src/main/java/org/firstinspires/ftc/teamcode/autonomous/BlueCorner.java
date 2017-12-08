@@ -13,8 +13,8 @@ public class BlueCorner extends AutonomousOpMode {
 
     @Override
     public void run() {
-        senseBlueTurn();
-        sleep(500);
+        //senseBlueTurn();
+        sleep(2000);
         driveALittle(1);
         sleep(250);
         driveNew(-10, 0.3, 3);

@@ -13,8 +13,8 @@ public class RedCorner extends AutonomousOpMode {
 
     @Override
     public void run() {
-        senseRedTurn();
-        sleep(250);
+        //senseRedTurn();
+        sleep(2000);
         driveALittle(-1);
         sleep(500);
         driveNew(8, 0.3, 3);
